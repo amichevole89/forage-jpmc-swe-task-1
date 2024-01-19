@@ -8,6 +8,21 @@ class ClientTest(unittest.TestCase):
       {'top_ask': {'price': 121.68, 'size': 4}, 'timestamp': '2019-02-11 22:06:30.572453', 'top_bid': {'price': 117.87, 'size': 81}, 'id': '0.109974697771', 'stock': 'DEF'}
     ]
     """ ------------ Add the assertion below ------------ """
+    for quote in quotes:
+            # Arrange
+            expected_data_point = (
+                quote["stock"],
+                float(quote["top_bid"]["price"]),
+                float(quote["top_ask"]["price"]),
+                (float(quote["top_bid"]["price"]) + float(quote["top_ask"]["price"]))
+                / 2,
+            )
+
+            # Act
+            data_point = getDataPoint(quote)
+
+            # Assert
+            self.assertEqual(data_point, expected_data_point)
 
   def test_getDataPoint_calculatePriceBidGreaterThanAsk(self):
     quotes = [
